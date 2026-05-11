@@ -75,6 +75,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+async def root():
+    return {"message": "Sentinel Cloud Native Backend Running"}
 
 @app.get("/health", tags=["health"])
 async def health_check() -> dict[str, str]:
