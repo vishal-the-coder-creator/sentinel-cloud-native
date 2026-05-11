@@ -1,0 +1,27 @@
+{
+  "name": "sentinel-frontend",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 3000",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 4173"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "dependencies": {
+    "chart.js": "4.5.1",
+    "react": "18.3.1",
+    "react-chartjs-2": "5.3.1",
+    "react-countup": "^6.5.3",
+    "react-dom": "18.3.1",
+    "react-loading-skeleton": "^3.5.0",
+    "zustand": "5.0.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "6.0.1",
+    "vite": "8.0.10"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "name": "sentinel-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portable Windows Electron shell for Sentinel Cloud Native Real-Time Analytics System",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "prepare:assets": "node scripts/prepare-build.mjs all",
+    "prepare:frontend": "node scripts/prepare-build.mjs frontend",
+    "prepare:backend": "node scripts/prepare-build.mjs backend",
+    "pack": "npm run prepare:assets && electron-builder --dir",
+    "dist:portable": "npm run prepare:assets && electron-builder --win portable",
+    "dist:installer": "npm run prepare:assets && electron-builder --win nsis",
+    "dist:all": "npm run prepare:assets && electron-builder --win portable nsis"
+  },
+  "build": {
+    "appId": "com.sentinel.desktop",
+    "productName": "Sentinel Analytics Demo",
+    "artifactName": "${productName}-${version}-${target}.${ext}",
+    "asar": true,
+    "files": [
+      "main.js",
+      "preload.js",
+      "package.json",
+      "app/frontend-dist/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "app/backend-dist",
+        "to": "backend"
+      },
+      {
+        "from": "docker",
+        "to": "docker"
+      },
+      {
+        "from": "config",
+        "to": "config"
+      }
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "portable": {
+      "artifactName": "Sentinel-Analytics-Portable-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "artifactName": "Sentinel-Analytics-Setup-${version}.${ext}"
+    },
+    "win": {
+      "target": [
+        "portable",
+        "nsis"
+      ]
+    }
+  },
+  "devDependencies": {
+    "electron": "^31.7.7",
+    "electron-builder": "^24.13.3"
+  }
+}

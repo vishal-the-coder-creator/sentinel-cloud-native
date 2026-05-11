@@ -1,0 +1,4 @@
+confluent-kafka==2.5.3
+pydantic==2.11.4
+pymongo==4.13.0
+redis==6.0.0

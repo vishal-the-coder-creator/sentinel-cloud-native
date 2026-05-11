@@ -1,0 +1,11 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: sentinel-demo-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - sentinel-demo-mongodb:/data/db
+
+volumes:
+  sentinel-demo-mongodb:
