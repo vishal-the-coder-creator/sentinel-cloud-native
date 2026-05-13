@@ -144,7 +144,7 @@ npx electron-builder --win portable nsis
 ### 8. Use one command for everything
 
 ```powershell
-build-all.bat
+.\build-all.bat
 ```
 
 ## Run Source Demo Mode
