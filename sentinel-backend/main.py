@@ -3,8 +3,6 @@ import os
 import sys
 from contextlib import asynccontextmanager
 from pathlib import Path
-import asyncio
-from generate_live_data import generate_live_data
 
 from fastapi import FastAPI, HTTPException, Query, WebSocket, WebSocketDisconnect, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -68,11 +66,6 @@ app = FastAPI(
     description="FastAPI backend service for ingesting messages and returning analytics",
     lifespan=lifespan,
 )
-
-
-@app.on_event("startup")
-async def startup_event():
-    asyncio.create_task(generate_live_data())
 
 app.add_middleware(
     CORSMiddleware,
