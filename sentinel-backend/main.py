@@ -75,6 +75,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+async def root():
+    return {"message": "Sentinel Cloud Native Backend Running"}
 
 @app.get("/health", tags=["health"])
 async def health_check() -> dict[str, str]:
@@ -92,7 +95,6 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
     except Exception:
         manager.disconnect(websocket)
         logger.exception("Unexpected WebSocket error")
-
 
 @app.post("/data", status_code=status.HTTP_201_CREATED, tags=["data"])
 async def store_message(payload: MessageCreate) -> dict[str, object]:
