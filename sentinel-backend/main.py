@@ -96,6 +96,7 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
         manager.disconnect(websocket)
         logger.exception("Unexpected WebSocket error")
 
+
 @app.post("/data", status_code=status.HTTP_201_CREATED, tags=["data"])
 async def store_message(payload: MessageCreate) -> dict[str, object]:
     try:
