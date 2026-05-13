@@ -49,6 +49,8 @@ def stream_live_data() -> None:
     print(f"Streaming live demo data to {API_URL}. Press Ctrl+C to stop.")
 
     while True:
+        # insert fake analytics
+        time.sleep(2)
         payload = {
             "user": next(user_stream),
             "message": pick_message(),

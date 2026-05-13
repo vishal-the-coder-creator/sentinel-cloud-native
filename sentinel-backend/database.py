@@ -1,8 +1,13 @@
 import logging
 import os
 from typing import Optional
-
-from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorCollection, AsyncIOMotorDatabase
+from dotenv import load_dotenv
+from motor.motor_asyncio import (
+    AsyncIOMotorClient,
+    AsyncIOMotorCollection,
+    AsyncIOMotorDatabase,
+)
+load_dotenv()
 
 
 logger = logging.getLogger(__name__)
@@ -14,19 +19,28 @@ class MongoDB:
         self._db: Optional[AsyncIOMotorDatabase] = None
 
     async def connect(self) -> None:
-        mongodb_uri = os.getenv("MONGODB_URI", "mongodb://localhost:27017/")
+        mongodb_uri = os.getenv("MONGODB_URI")
         db_name = os.getenv("MONGODB_DB_NAME", "sentinel_db")
+
+        print("Using Mongo URI:", mongodb_uri)
+
+        if not mongodb_uri:
+          raise ValueError("MONGODB_URI environment variable is missing")
 
         self._client = AsyncIOMotorClient(
             mongodb_uri,
             maxPoolSize=int(os.getenv("MONGODB_MAX_POOL_SIZE", "50")),
             minPoolSize=int(os.getenv("MONGODB_MIN_POOL_SIZE", "5")),
-            serverSelectionTimeoutMS=int(os.getenv("MONGODB_SERVER_SELECTION_TIMEOUT_MS", "5000")),
+            serverSelectionTimeoutMS=int(
+                os.getenv("MONGODB_SERVER_SELECTION_TIMEOUT_MS", "5000")
+            ),
         )
+
         self._db = self._client[db_name]
 
         await self._db.command("ping")
         await self._db.messages.create_index("timestamp")
+
         logger.info("MongoDB connected successfully")
 
     async def disconnect(self) -> None:
