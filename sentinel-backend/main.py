@@ -96,18 +96,6 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
         manager.disconnect(websocket)
         logger.exception("Unexpected WebSocket error")
 
-@app.websocket("/ws/analytics")
-async def websocket_analytics_endpoint(websocket: WebSocket) -> None:
-    await manager.connect(websocket)
-    try:
-        while True:
-            await websocket.receive_text()
-    except WebSocketDisconnect:
-        manager.disconnect(websocket)
-    except Exception:
-        manager.disconnect(websocket)
-        logger.exception("Unexpected WebSocket error")
-
 @app.post("/data", status_code=status.HTTP_201_CREATED, tags=["data"])
 async def store_message(payload: MessageCreate) -> dict[str, object]:
     try:
